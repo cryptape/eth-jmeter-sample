@@ -14,7 +14,7 @@ java8,maven,linux or mac(not support win)
   mvn package
   mvn jmeter:gui
   load jmx file
-  src/test/jmeter/BDJOBS.jmx
+  src/test/jmeter/*.jmx
 ```  
 4. stress
 ```
