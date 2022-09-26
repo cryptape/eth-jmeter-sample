@@ -48,6 +48,7 @@ jobs:
           mvn jmeter:jmeter@configuration2 -DjmeterTest=${{ github.event.inputs.jmeterJmx }}
       - name: collect block message
         run: |
+          sleep 2m
           cat block.csv
           cp block.csv target/jmeter
       - name: Publish reports
