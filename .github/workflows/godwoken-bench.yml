@@ -1,4 +1,4 @@
-name: alphanet-bench-erc20
+name: godwoken-bench
 
 on:
   workflow_dispatch:
