@@ -47,6 +47,7 @@ jobs:
         run:
           mvn jmeter:jmeter@configuration2 -DjmeterTest=${{ github.event.inputs.jmeterJmx }}
       - name: collect block message
+        if: always()
         run: |
           sleep 2m
           cat block.csv
