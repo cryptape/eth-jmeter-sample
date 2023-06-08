@@ -1,0 +1,72 @@
+name: axon-bench
+
+on:
+  workflow_dispatch:
+    inputs:
+      jmeterJmx:
+        type: choice
+        description: Make a choice of jmx
+        required: true
+        options:
+          - axon-nativeTransfer.jmx
+      jarArg:
+        description: 'The argument to pass to the Java jar command'
+        required: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Build with Maven
+        run:
+          mvn clean package --file pom.xml
+
+      - name: Download jar file
+        run: |
+          wget https://github.com/sunchengzhu/eth-performance/releases/download/v1.0.0/ethStats.jar
+
+      - name: Run ethStats.jar
+        run: |
+          nohup java -jar ethStats.jar ${{ github.event.inputs.jarArg }} > ./ethStats.out 2>&1 &
+          echo "tps" >> commands.txt
+
+      - name: jmeter run
+        run:
+          mvn jmeter:jmeter@configuration2 -DjmeterTest=${{ github.event.inputs.jmeterJmx }}
+
+      - name: stop ethStats.jar
+        run: |
+          echo "stopTps" >> commands.txt
+          echo "successRate" >> commands.txt
+
+      - name: Check logs
+        timeout-minutes: 2
+        run: |
+          tail -f ethStats.out | while read LOGLINE
+          do
+             [[ "${LOGLINE}" == *"JVM正在退出"* ]] && pkill -P $$ tail
+          done
+          tail -n 2 ethStats.out
+
+      - name: Collect block message
+        if: always()
+        run: |
+          cp commands.txt target/jmeter
+          cp ethStats.out target/jmeter
+          cp tps.csv target/jmeter
+          cp performance.csv target/jmeter
+
+      - name: Publish reports
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: jfoa-build-reports-${{ runner.os }}
+          path: target/jmeter
