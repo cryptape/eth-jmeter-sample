@@ -18,10 +18,10 @@
         <stringProp name="Threads initial delay">0</stringProp>
         <stringProp name="Start users count">10</stringProp>
         <stringProp name="Start users count burst">10</stringProp>
-        <stringProp name="Start users period">180</stringProp>
+        <stringProp name="Start users period">60</stringProp>
         <stringProp name="Stop users count">0</stringProp>
         <stringProp name="Stop users period">100</stringProp>
-        <stringProp name="flighttime">240</stringProp>
+        <stringProp name="flighttime">60</stringProp>
         <stringProp name="rampUp">0</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
