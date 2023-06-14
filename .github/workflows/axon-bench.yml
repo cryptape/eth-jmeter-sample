@@ -35,6 +35,8 @@ jobs:
           wget https://github.com/sunchengzhu/eth-performance/releases/download/v1.0.0/ethStats.jar
 
       - name: Run ethStats.jar
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           curl -X POST \
             -H "Authorization: token $GH_TOKEN" \
