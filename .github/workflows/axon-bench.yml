@@ -29,40 +29,40 @@ jobs:
         run:
           mvn clean package --file pom.xml
 
-      - name: Download jar file
-        run: |
-          wget https://github.com/sunchengzhu/eth-performance/releases/download/v1.0.0/ethStats.jar
-
-      - name: Run ethStats.jar
-        run: |
-          nohup java -jar ethStats.jar ${{ github.event.inputs.jarArg }} > ./ethStats.out 2>&1 &
-          echo "tps" >> commands.txt
+#      - name: Download jar file
+#        run: |
+#          wget https://github.com/sunchengzhu/eth-performance/releases/download/v1.0.0/ethStats.jar
+#
+#      - name: Run ethStats.jar
+#        run: |
+#          nohup java -jar ethStats.jar ${{ github.event.inputs.jarArg }} > ./ethStats.out 2>&1 &
+#          echo "tps" >> commands.txt
 
       - name: jmeter run
         run:
           mvn jmeter:jmeter@configuration2 -DjmeterTest=${{ github.event.inputs.jmeterJmx }}
 
-      - name: stop ethStats.jar
-        run: |
-          echo "stopTps" >> commands.txt
-          echo "successRate" >> commands.txt
+#      - name: stop ethStats.jar
+#        run: |
+#          echo "stopTps" >> commands.txt
+#          echo "successRate" >> commands.txt
 
-      - name: Check logs
-        timeout-minutes: 2
-        run: |
-          tail -f ethStats.out | while read LOGLINE
-          do
-             [[ "${LOGLINE}" == *"JVM正在退出"* ]] && pkill -P $$ tail
-          done
-          tail -n 2 ethStats.out
+#      - name: Check logs
+#        timeout-minutes: 2
+#        run: |
+#          tail -f ethStats.out | while read LOGLINE
+#          do
+#             [[ "${LOGLINE}" == *"JVM正在退出"* ]] && pkill -P $$ tail
+#          done
+#          tail -n 2 ethStats.out
 
-      - name: Collect block message
-        if: always()
-        run: |
-          cp commands.txt target/jmeter
-          cp ethStats.out target/jmeter
-          cp tps.csv target/jmeter
-          cp performance.csv target/jmeter
+#      - name: Collect block message
+#        if: always()
+#        run: |
+#          cp commands.txt target/jmeter
+#          cp ethStats.out target/jmeter
+#          cp tps.csv target/jmeter
+#          cp performance.csv target/jmeter
 
       - name: Publish reports
         if: always()
