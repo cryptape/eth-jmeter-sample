@@ -34,7 +34,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="rpcUrl" elementType="Argument">
                 <stringProp name="Argument.name">rpcUrl</stringProp>
-                <stringProp name="Argument.value">http://18.176.176.44:8000</stringProp>
+                <stringProp name="Argument.value">http://54.238.73.76:8500</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="default_private_key" elementType="Argument">
