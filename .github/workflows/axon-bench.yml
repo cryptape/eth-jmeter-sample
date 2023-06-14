@@ -59,3 +59,5 @@ jobs:
           update_gist "stopTps"
           sleep 5
           update_gist "successRate"
+          sleep 5
+          update_gist "printBlockNumber"
