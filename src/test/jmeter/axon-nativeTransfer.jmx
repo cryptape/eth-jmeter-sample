@@ -14,7 +14,7 @@
     <hashTree>
       <kg.apc.jmeter.threads.SteppingThreadGroup guiclass="kg.apc.jmeter.threads.SteppingThreadGroupGui" testclass="kg.apc.jmeter.threads.SteppingThreadGroup" testname="jp@gc - Stepping Thread Group" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-        <stringProp name="ThreadGroup.num_threads">600</stringProp>
+        <stringProp name="ThreadGroup.num_threads">1000</stringProp>
         <stringProp name="Threads initial delay">0</stringProp>
         <stringProp name="Start users count">100</stringProp>
         <stringProp name="Start users count burst">500</stringProp>
@@ -49,7 +49,7 @@
               </elementProp>
               <elementProp name="size" elementType="Argument">
                 <stringProp name="Argument.name">size</stringProp>
-                <stringProp name="Argument.value">10000</stringProp>
+                <stringProp name="Argument.value">100000</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="to" elementType="Argument">
