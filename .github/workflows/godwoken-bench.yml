@@ -58,3 +58,26 @@ jobs:
           update_gist "successRate"
           sleep 5
           update_gist "printBlockNumber"
+
+      - name: Cancel EthStats workflow if this is cancelled
+        if: cancelled()
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{secrets.GH_TOKEN}}
+          script: |
+            const { data: workflows } = await github.actions.listRepoWorkflows({
+              owner: 'sunchengzhu',
+              repo: 'eth-performance',
+            });
+            const { data: runs } = await github.actions.listWorkflowRuns({
+              owner: 'sunchengzhu',
+              repo: 'eth-performance',
+              workflow_id: workflows.workflows.find(wf => wf.path === 'ethStats.yml').id,
+              status: 'in_progress',
+            });
+            if (runs.total_count > 0) {
+              const runId = runs.workflow_runs[0].id;
+              await github.actions.cancelWorkflowRun({
+                owner: 'sunchengzhu',
+                repo: 'eth-performance',
+                run_id: runId,
