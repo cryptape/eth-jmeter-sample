@@ -75,12 +75,12 @@ public class TxBuildRequest extends Web3BasicRequest {
             String hexStr = TransactionUtil.signTx(this.web3j, fromCredentials, gasPrice, gasLimit, contractAddress, bigInteger, payload);
             String txHash = web3j.ethSendRawTransaction(hexStr).send().getTransactionHash();
 
-            String address = fromCredentials.getAddress();
-            EthGetBalance balanceWei = web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).sendAsync().get();
-            BigInteger balanceInWei = balanceWei.getBalance();
-            BigDecimal balanceInEther = Convert.fromWei(new BigDecimal(balanceInWei), Convert.Unit.ETHER);
-            System.out.println("The balance of the address " + address + " is: " + balanceInEther + " Ether");
-            System.out.println("hexStr:" + hexStr);
+//            String address = fromCredentials.getAddress();
+//            EthGetBalance balanceWei = web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).sendAsync().get();
+//            BigInteger balanceInWei = balanceWei.getBalance();
+//            BigDecimal balanceInEther = Convert.fromWei(new BigDecimal(balanceInWei), Convert.Unit.ETHER);
+//            System.out.println("The balance of the address " + address + " is " + balanceInEther + " Ether");
+//            System.out.println("hexStr:" + hexStr);
 
             System.out.println("txHash:" + txHash);
             if (txHash.length() > 10) {
