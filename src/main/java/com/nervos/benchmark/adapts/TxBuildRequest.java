@@ -6,7 +6,11 @@ import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.methods.response.EthGetBalance;
+import org.web3j.utils.Convert;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -70,9 +74,20 @@ public class TxBuildRequest extends Web3BasicRequest {
         try {
             String hexStr = TransactionUtil.signTx(this.web3j, fromCredentials, gasPrice, gasLimit, contractAddress, bigInteger, payload);
             String txHash = web3j.ethSendRawTransaction(hexStr).send().getTransactionHash();
+
+            String address = fromCredentials.getAddress();
+            EthGetBalance balanceWei = web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).sendAsync().get();
+            BigInteger balanceInWei = balanceWei.getBalance();
+            BigDecimal balanceInEther = Convert.fromWei(new BigDecimal(balanceInWei), Convert.Unit.ETHER);
+            System.out.println("The balance of the address " + address + " is: " + balanceInEther + " Ether");
+            System.out.println("hexStr:" + hexStr);
+            System.out.println(gasPrice);
+            System.out.println(gasLimit);
+            System.out.println(contractAddress);
+            System.out.println(bigInteger);
+            System.out.println(payload);
+
             System.out.println("txHash:" + txHash);
-            BigInteger blockHeight = web3j.ethBlockNumber().send().getBlockNumber();
-            System.out.println("Latest block height: " + blockHeight);
             if (txHash.length() > 10) {
                 return true;
             }
