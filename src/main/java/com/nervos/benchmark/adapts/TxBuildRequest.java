@@ -8,6 +8,7 @@ import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthGetBalance;
+import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.utils.Convert;
 
 import java.math.BigDecimal;
@@ -69,11 +70,15 @@ public class TxBuildRequest extends Web3BasicRequest {
         return sendTx(this.web3j, this.currentSendCredentials, this.to, this.value, this.payload);
     }
 
-
     private boolean sendTx(Web3j web3j, Credentials fromCredentials, String contractAddress, BigInteger bigInteger, String payload) {
         try {
             String hexStr = TransactionUtil.signTx(this.web3j, fromCredentials, gasPrice, gasLimit, contractAddress, bigInteger, payload);
-            String txHash = web3j.ethSendRawTransaction(hexStr).send().getTransactionHash();
+            EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(hexStr).send();
+
+            if (ethSendTransaction.hasError()) {
+                System.out.println("Error processing transaction request: " + ethSendTransaction.getError().getMessage());
+                return false;
+            }
 
 //            String address = fromCredentials.getAddress();
 //            EthGetBalance balanceWei = web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).sendAsync().get();
@@ -82,12 +87,15 @@ public class TxBuildRequest extends Web3BasicRequest {
 //            System.out.println("The balance of the address " + address + " is " + balanceInEther + " Ether");
 //            System.out.println("hexStr:" + hexStr);
 
+            String txHash = ethSendTransaction.getTransactionHash();
             System.out.println("txHash:" + txHash);
-            if (txHash.length() > 10) {
+
+            if (txHash != null && txHash.length() > 10) {
                 return true;
             }
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("Exception occurred: " + e.getMessage());
             return false;
         }
         return false;

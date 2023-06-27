@@ -64,7 +64,7 @@
               </elementProp>
               <elementProp name="gasPrice" elementType="Argument">
                 <stringProp name="Argument.name">gasPrice</stringProp>
-                <stringProp name="Argument.value">60000000000</stringProp>
+                <stringProp name="Argument.value">6000000000</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="value" elementType="Argument">
