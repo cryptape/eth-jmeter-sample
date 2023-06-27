@@ -71,11 +71,10 @@ public class TxBuildRequest extends Web3BasicRequest {
             String hexStr = TransactionUtil.signTx(this.web3j, fromCredentials, gasPrice, gasLimit, contractAddress, bigInteger, payload);
             String txHash = web3j.ethSendRawTransaction(hexStr).send().getTransactionHash();
             System.out.println("txHash:" + txHash);
+            BigInteger blockHeight = web3j.ethBlockNumber().send().getBlockNumber();
+            System.out.println("Latest block height: " + blockHeight);
             if (txHash.length() > 10) {
                 return true;
-            } else {
-                BigInteger blockHeight = web3j.ethBlockNumber().send().getBlockNumber();
-                System.out.println("Latest block height: " + blockHeight);
             }
         } catch (Exception e) {
             e.printStackTrace();
