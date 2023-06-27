@@ -34,7 +34,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="rpcUrl" elementType="Argument">
                 <stringProp name="Argument.name">rpcUrl</stringProp>
-                <stringProp name="Argument.value">https://v1.testnet.godwoken.io/rpc </stringProp>
+                <stringProp name="Argument.value">https://v1.testnet.godwoken.io/rpc</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="default_private_key" elementType="Argument">
