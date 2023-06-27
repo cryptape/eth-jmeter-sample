@@ -11,7 +11,7 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class TxBuildRequest extends Web3BasicRequest{
+public class TxBuildRequest extends Web3BasicRequest {
 
     private List<Account> accountList;
     private static AtomicInteger curSendIdx = new AtomicInteger(0);
@@ -27,23 +27,23 @@ public class TxBuildRequest extends Web3BasicRequest{
     public Arguments getConfigArguments() {
         Arguments arguments = new Arguments();
         arguments.addArgument(Constant.Mnemonic, Constant.DEFAULT_MNEMONIC);
-        arguments.addArgument(Constant.SIZE,"100");
+        arguments.addArgument(Constant.SIZE, "100");
         arguments.addArgument(Constant.TO, "");
         arguments.addArgument(Constant.GasLimit, "1000000");
         arguments.addArgument(Constant.GasPrice, "10000");
-        arguments.addArgument(Constant.VALUE,"10");
-        arguments.addArgument(Constant.PAYLOAD,"");
+        arguments.addArgument(Constant.VALUE, "10");
+        arguments.addArgument(Constant.PAYLOAD, "");
         return arguments;
     }
 
     @Override
     public void setupOtherData(JavaSamplerContext context) {
         String mnstr = context.getParameter(Constant.Mnemonic);
-        System.out.println("nm str;"+mnstr);
-        int size= context.getIntParameter(Constant.SIZE);
+        System.out.println("nm str;" + mnstr);
+        int size = context.getIntParameter(Constant.SIZE);
         this.chainId = SingletonService.getChainId(this.web3j);
 
-        this.accountList = SingletonService.getSingletonAccountList(mnstr,size);
+        this.accountList = SingletonService.getSingletonAccountList(mnstr, size);
         this.gasLimit = new BigInteger(context.getParameter(Constant.GasLimit));
         this.gasPrice = new BigInteger(context.getParameter(Constant.GasPrice));
         this.payload = context.getParameter(Constant.PAYLOAD);
@@ -73,6 +73,9 @@ public class TxBuildRequest extends Web3BasicRequest{
             System.out.println("txHash:" + txHash);
             if (txHash.length() > 10) {
                 return true;
+            } else {
+                BigInteger blockHeight = web3j.ethBlockNumber().send().getBlockNumber();
+                System.out.println("Latest block height: " + blockHeight);
             }
         } catch (Exception e) {
             e.printStackTrace();
