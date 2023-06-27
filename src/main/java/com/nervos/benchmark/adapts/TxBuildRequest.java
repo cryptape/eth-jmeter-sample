@@ -68,25 +68,8 @@ public class TxBuildRequest extends Web3BasicRequest{
 
     private boolean sendTx(Web3j web3j, Credentials fromCredentials, String contractAddress, BigInteger bigInteger, String payload) {
         try {
-            // Check if web3j is null
-            if (web3j == null) {
-                System.out.println("web3j is null");
-            }
-
             String hexStr = TransactionUtil.signTx(this.web3j, fromCredentials, gasPrice, gasLimit, contractAddress, bigInteger, payload);
-
-            // Check if hexStr is null
-            if (hexStr == null) {
-                System.out.println("hexStr is null");
-            }
-
             String txHash = web3j.ethSendRawTransaction(hexStr).send().getTransactionHash();
-
-            // Check if txHash is null
-            if (txHash == null) {
-                System.out.println("txHash is null");
-            }
-
             System.out.println("txHash:" + txHash);
             if (txHash.length() > 10) {
                 return true;
@@ -97,6 +80,5 @@ public class TxBuildRequest extends Web3BasicRequest{
         }
         return false;
     }
-
 
 }
