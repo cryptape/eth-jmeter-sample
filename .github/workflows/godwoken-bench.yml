@@ -9,6 +9,7 @@ on:
         required: true
         options:
           - testnet-nativeTransfer.jmx
+          - testnet-getBalance.jmx
       wsUrl:
         description: 'websocket url'
         required: false
@@ -38,11 +39,13 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          curl -X POST \
-            -H "Authorization: token $GH_TOKEN" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/sunchengzhu/eth-performance/actions/workflows/ethStats.yml/dispatches \
-            -d '{"ref":"main", "inputs": {"jarArg": "'${{ github.event.inputs.wsUrl }}'", "gistId": "'${{ github.event.inputs.gistId }}'"}'
+          if [[ "${{ github.event.inputs.jmeterJmx }}" == "testnet-nativeTransfer.jmx" ]]; then
+            curl -X POST \
+              -H "Authorization: token $GH_TOKEN" \
+              -H "Accept: application/vnd.github.v3+json" \
+              https://api.github.com/repos/sunchengzhu/eth-performance/actions/workflows/ethStats.yml/dispatches \
+              -d '{"ref":"main", "inputs": {"jarArg": "'${{ github.event.inputs.wsUrl }}'", "gistId": "'${{ github.event.inputs.gistId }}'"}'
+          fi
 
       - name: jmeter run
         env:
@@ -50,9 +53,11 @@ jobs:
           GIST_ID: bd29348042f0f1f8998728895dea3e65
         run: |
           update_gist() {
-            cmd=$1
-            JSON_DATA=$(printf '{"description": "Updated gist","files": {"commands.txt": {"content": "%s"}}}' "$cmd")
-            curl -X PATCH -H "Authorization: token $GH_TOKEN" https://api.github.com/gists/$GIST_ID -d "${JSON_DATA}"
+            if [[ "${{ github.event.inputs.jmeterJmx }}" == "testnet-nativeTransfer.jmx" ]]; then
+              cmd=$1
+              JSON_DATA=$(printf '{"description": "Updated gist","files": {"commands.txt": {"content": "%s"}}}' "$cmd")
+              curl -X PATCH -H "Authorization: token $GH_TOKEN" https://api.github.com/gists/$GIST_ID -d "${JSON_DATA}"
+            fi
           }
           update_gist "tps"
           mvn jmeter:jmeter@configuration2 -DjmeterTest=${{ github.event.inputs.jmeterJmx }}
