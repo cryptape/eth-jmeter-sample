@@ -30,7 +30,7 @@ public abstract class Web3BasicRequest extends AbstractJavaSamplerClient {
     public Arguments getDefaultParameters() {
         Arguments arguments = new Arguments();
         arguments.addArgument(Constant.RPC_URL, "1");
-        arguments.addArgument(Constant.DEFAULT_PRIVATE_KEY, "0xd326ae3a6708b3f1ad08cefe5a429c313369a98e0a4533c5798be8458d405b31");
+//        arguments.addArgument(Constant.DEFAULT_PRIVATE_KEY, "0xd326ae3a6708b3f1ad08cefe5a429c313369a98e0a4533c5798be8458d405b31");
         Arguments newArgument = getConfigArguments();
         for (Map.Entry<String, String> entry : newArgument.getArgumentsAsMap().entrySet()) {
             arguments.addArgument(entry.getKey(), entry.getValue());
