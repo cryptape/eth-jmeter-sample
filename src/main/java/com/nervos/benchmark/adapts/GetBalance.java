@@ -44,12 +44,13 @@ public class GetBalance extends Web3BasicRequest {
 
     private boolean checkBalance(Web3j web3j, List<Account> accountList) {
         try {
-            for (Account account : accountList) {
+            for (int i = 0; i < accountList.size(); i++) {
+                Account account = accountList.get(i);
                 Credentials credentials = account.getCredentials();
                 String address = credentials.getAddress();
                 EthGetBalance ethGetBalance = web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).send();
                 BigInteger balanceInWei = ethGetBalance.getBalance();
-                System.out.println(address + " has " + Convert.fromWei(new BigDecimal(balanceInWei), Convert.Unit.ETHER) + " Ether");
+                System.out.println("Account " + i + " : " + address + " has " + Convert.fromWei(new BigDecimal(balanceInWei), Convert.Unit.ETHER) + " Ether");
             }
             return true;
         } catch (Exception e) {
@@ -58,4 +59,5 @@ public class GetBalance extends Web3BasicRequest {
             return false;
         }
     }
+
 }
