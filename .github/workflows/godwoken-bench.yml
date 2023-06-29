@@ -10,6 +10,7 @@ on:
         options:
           - testnet-nativeTransfer.jmx
           - testnet-getBalance.jmx
+          - alphanet-nativeTransfer.jmx
       wsUrl:
         description: 'websocket url'
         required: false
@@ -39,7 +40,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          if [[ "${{ github.event.inputs.jmeterJmx }}" == "testnet-nativeTransfer.jmx" ]]; then
+          if [[ "${{ github.event.inputs.jmeterJmx }}" != "testnet-getBalance.jmx" ]]; then
             curl -X POST \
               -H "Authorization: token $GH_TOKEN" \
               -H "Accept: application/vnd.github.v3+json" \
@@ -53,7 +54,7 @@ jobs:
           GIST_ID: bd29348042f0f1f8998728895dea3e65
         run: |
           update_gist() {
-            if [[ "${{ github.event.inputs.jmeterJmx }}" == "testnet-nativeTransfer.jmx" ]]; then
+            if [[ "${{ github.event.inputs.jmeterJmx }}" != "testnet-getBalance.jmx" ]]; then
               cmd=$1
               JSON_DATA=$(printf '{"description": "Updated gist","files": {"commands.txt": {"content": "%s"}}}' "$cmd")
               curl -X PATCH -H "Authorization: token $GH_TOKEN" https://api.github.com/gists/$GIST_ID -d "${JSON_DATA}"
