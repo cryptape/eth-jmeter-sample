@@ -12,10 +12,13 @@ import org.web3j.utils.Convert;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GetBalance extends Web3BasicRequest {
 
     private List<Account> accountList;
+    private static AtomicInteger curBalanceCheckIdx = new AtomicInteger(0);
+    private Account currentAccount;
 
     @Override
     public Arguments getConfigArguments() {
@@ -34,24 +37,22 @@ public class GetBalance extends Web3BasicRequest {
 
     @Override
     public void prepareRun(JavaSamplerContext context) {
-
+        int currentIdx = curBalanceCheckIdx.getAndAdd(1) % this.accountList.size();
+        this.currentAccount = this.accountList.get(currentIdx);
     }
 
     @Override
     public boolean run(JavaSamplerContext context) {
-        return checkBalance(this.web3j, this.accountList);
+        return checkBalance(this.web3j, this.currentAccount);
     }
 
-    private boolean checkBalance(Web3j web3j, List<Account> accountList) {
+    private boolean checkBalance(Web3j web3j, Account account) {
         try {
-            for (int i = 0; i < accountList.size(); i++) {
-                Account account = accountList.get(i);
-                Credentials credentials = account.getCredentials();
-                String address = credentials.getAddress();
-                EthGetBalance ethGetBalance = web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).send();
-                BigInteger balanceInWei = ethGetBalance.getBalance();
-                System.out.println("Account " + i + " : " + address + " has " + Convert.fromWei(new BigDecimal(balanceInWei), Convert.Unit.ETHER) + " Ether");
-            }
+            Credentials credentials = account.getCredentials();
+            String address = credentials.getAddress();
+            EthGetBalance ethGetBalance = web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).send();
+            BigInteger balanceInWei = ethGetBalance.getBalance();
+            System.out.println("Account : " + address + " has " + Convert.fromWei(new BigDecimal(balanceInWei), Convert.Unit.ETHER) + " Ether");
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,5 +60,4 @@ public class GetBalance extends Web3BasicRequest {
             return false;
         }
     }
-
 }
