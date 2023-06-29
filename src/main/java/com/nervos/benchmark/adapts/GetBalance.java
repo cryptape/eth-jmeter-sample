@@ -18,6 +18,7 @@ public class GetBalance extends Web3BasicRequest {
 
     private List<Account> accountList;
     private static AtomicInteger curBalanceCheckIdx = new AtomicInteger(0);
+    private int currentIdx;
     private Account currentAccount;
 
     @Override
@@ -37,22 +38,22 @@ public class GetBalance extends Web3BasicRequest {
 
     @Override
     public void prepareRun(JavaSamplerContext context) {
-        int currentIdx = curBalanceCheckIdx.getAndAdd(1) % this.accountList.size();
+        this.currentIdx = curBalanceCheckIdx.getAndAdd(1) % this.accountList.size();
         this.currentAccount = this.accountList.get(currentIdx);
     }
 
     @Override
     public boolean run(JavaSamplerContext context) {
-        return checkBalance(this.web3j, this.currentAccount);
+        return checkBalance(this.web3j, this.currentIdx, this.currentAccount);
     }
 
-    private boolean checkBalance(Web3j web3j, Account account) {
+    private boolean checkBalance(Web3j web3j, int index, Account account) {
         try {
             Credentials credentials = account.getCredentials();
             String address = credentials.getAddress();
             EthGetBalance ethGetBalance = web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).send();
             BigInteger balanceInWei = ethGetBalance.getBalance();
-            System.out.println("Account : " + address + " has " + Convert.fromWei(new BigDecimal(balanceInWei), Convert.Unit.ETHER) + " Ether");
+            System.out.println("Account " + index + " : " + address + " has " + Convert.fromWei(new BigDecimal(balanceInWei), Convert.Unit.ETHER) + " Ether");
             return true;
         } catch (Exception e) {
             e.printStackTrace();
