@@ -11,7 +11,7 @@ java8,maven,linux or mac(not support win)
 2. mod stress jmx
 
 ```
-  mvn package
+  mvn clean package
   mvn jmeter:gui
   load jmx file
   src/test/jmeter/*.jmx
