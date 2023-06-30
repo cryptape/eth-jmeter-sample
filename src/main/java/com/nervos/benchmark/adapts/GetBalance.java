@@ -8,6 +8,7 @@ import org.web3j.crypto.WalletUtils;
 import org.web3j.exceptions.MessageDecodingException;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.Response;
 import org.web3j.protocol.core.methods.response.EthGetBalance;
 import org.web3j.utils.Convert;
 
@@ -59,9 +60,17 @@ public class GetBalance extends Web3BasicRequest {
             if (WalletUtils.isValidAddress(address)) {
                 // proceed with balance check only if the address is valid
                 EthGetBalance ethGetBalance = web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).send();
-                BigInteger balanceInWei = ethGetBalance.getBalance();
-                if (index % PRINT_INTERVAL == 0) {
-                    System.out.println("Account " + index + " : " + address + " has " + Convert.fromWei(new BigDecimal(balanceInWei), Convert.Unit.ETHER) + " Ether");
+
+                // try to decode the balance
+                try {
+                    BigInteger balanceInWei = ethGetBalance.getBalance();
+                    if (index % PRINT_INTERVAL == 0) {
+                        System.out.println("Account " + index + " : " + address + " has " + Convert.fromWei(new BigDecimal(balanceInWei), Convert.Unit.ETHER) + " Ether");
+                    }
+                } catch (MessageDecodingException e) {
+                    // print the raw response if a MessageDecodingException occurs
+                    System.out.println("Raw response: " + ethGetBalance.getRawResponse());
+                    throw e;
                 }
                 return true;
             } else {
