@@ -4,6 +4,7 @@ import com.nervos.benchmark.model.Account;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.web3j.crypto.Credentials;
+import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthGetBalance;
@@ -51,10 +52,18 @@ public class GetBalance extends Web3BasicRequest {
         try {
             Credentials credentials = account.getCredentials();
             String address = credentials.getAddress();
-            EthGetBalance ethGetBalance = web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).send();
-            BigInteger balanceInWei = ethGetBalance.getBalance();
-            System.out.println("Account " + index + " : " + address + " has " + Convert.fromWei(new BigDecimal(balanceInWei), Convert.Unit.ETHER) + " Ether");
-            return true;
+
+            // validate the address
+            if (WalletUtils.isValidAddress(address)) {
+                // proceed with balance check only if the address is valid
+                EthGetBalance ethGetBalance = web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).send();
+                BigInteger balanceInWei = ethGetBalance.getBalance();
+                System.out.println("Account " + index + " : " + address + " has " + Convert.fromWei(new BigDecimal(balanceInWei), Convert.Unit.ETHER) + " Ether");
+                return true;
+            } else {
+                System.out.println("The address " + address + " is not a valid Ethereum address. Skipping the balance check for this address.");
+                return false;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Exception occurred: " + e.getMessage());
