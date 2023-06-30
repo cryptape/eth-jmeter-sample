@@ -51,7 +51,7 @@ public abstract class Web3BasicRequest extends AbstractJavaSamplerClient {
     @Override
     public void teardownTest(JavaSamplerContext context) {
 
-        System.out.println("teardownTest");
+//        System.out.println("teardownTest");
     }
 
 

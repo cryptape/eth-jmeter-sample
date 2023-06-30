@@ -8,7 +8,6 @@ import org.web3j.crypto.WalletUtils;
 import org.web3j.exceptions.MessageDecodingException;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
-import org.web3j.protocol.core.Response;
 import org.web3j.protocol.core.methods.response.EthGetBalance;
 import org.web3j.utils.Convert;
 
