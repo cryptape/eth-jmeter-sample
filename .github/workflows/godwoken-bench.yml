@@ -8,8 +8,8 @@ on:
         description: Make a choice of jmx
         required: true
         options:
-          - testnet-nativeTransfer.jmx
           - testnet-getBalance.jmx
+          - testnet-nativeTransfer.jmx
           - alphanet-nativeTransfer.jmx
       wsUrl:
         description: 'websocket url'
