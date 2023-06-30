@@ -17,7 +17,7 @@
         <stringProp name="ThreadGroup.num_threads">900</stringProp>
         <stringProp name="Threads initial delay"></stringProp>
         <stringProp name="Start users count">100</stringProp>
-        <stringProp name="Start users count burst">700</stringProp>
+        <stringProp name="Start users count burst">900</stringProp>
         <stringProp name="Start users period">120</stringProp>
         <stringProp name="Stop users count"></stringProp>
         <stringProp name="Stop users period">100</stringProp>
