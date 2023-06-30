@@ -48,7 +48,7 @@ public class GetBalance extends Web3BasicRequest {
         return checkBalance(this.web3j, this.currentIdx, this.currentAccount);
     }
 
-    private boolean checkBalance(Web3j web3j, int index, Account account) {
+    private synchronized boolean checkBalance(Web3j web3j, int index, Account account) {
         try {
             Credentials credentials = account.getCredentials();
             String address = credentials.getAddress();
