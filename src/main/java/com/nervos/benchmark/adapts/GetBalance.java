@@ -21,6 +21,7 @@ public class GetBalance extends Web3BasicRequest {
     private static AtomicInteger curBalanceCheckIdx = new AtomicInteger(0);
     private int currentIdx;
     private Account currentAccount;
+    private static final int PRINT_INTERVAL = 1000;
 
     @Override
     public Arguments getConfigArguments() {
@@ -58,7 +59,9 @@ public class GetBalance extends Web3BasicRequest {
                 // proceed with balance check only if the address is valid
                 EthGetBalance ethGetBalance = web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).send();
                 BigInteger balanceInWei = ethGetBalance.getBalance();
-                System.out.println("Account " + index + " : " + address + " has " + Convert.fromWei(new BigDecimal(balanceInWei), Convert.Unit.ETHER) + " Ether");
+                if (index % PRINT_INTERVAL == 0) {
+                    System.out.println("Account " + index + " : " + address + " has " + Convert.fromWei(new BigDecimal(balanceInWei), Convert.Unit.ETHER) + " Ether");
+                }
                 return true;
             } else {
                 System.out.println("The address " + address + " is not a valid Ethereum address. Skipping the balance check for this address.");
