@@ -5,6 +5,7 @@ import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
+import org.web3j.exceptions.MessageDecodingException;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthGetBalance;
@@ -50,40 +51,32 @@ public class GetBalance extends Web3BasicRequest {
     }
 
     private synchronized boolean checkBalance(Web3j web3j, int index, Account account) {
-        int retries = 1;
-        while (retries >= 0) {
-            try {
-                Credentials credentials = account.getCredentials();
-                String address = credentials.getAddress();
+        try {
+            Credentials credentials = account.getCredentials();
+            String address = credentials.getAddress();
 
-                // validate the address
-                if (WalletUtils.isValidAddress(address)) {
-                    // proceed with balance check only if the address is valid
-                    EthGetBalance ethGetBalance = web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).send();
-                    BigInteger balanceInWei = ethGetBalance.getBalance();
-                    // Add additional check for balance format
-                    if (balanceInWei.toString().startsWith("0x") && balanceInWei.toString().substring(2).matches("[0-9a-fA-F]+")) {
-                        if (index % PRINT_INTERVAL == 0) {
-                            System.out.println("Account " + index + " : " + address + " has " + Convert.fromWei(new BigDecimal(balanceInWei), Convert.Unit.ETHER) + " Ether");
-                        }
-                        return true;
-                    } else {
-                        retries--;
-                        if (retries < 0) {
-                            System.out.println("Invalid balance format for account at index " + index + " with address: " + address);
-                        }
-                    }
-                } else {
-                    System.out.println("The address " + address + " is not a valid Ethereum address. Skipping the balance check for this address.");
-                    return false;
+            // validate the address
+            if (WalletUtils.isValidAddress(address)) {
+                // proceed with balance check only if the address is valid
+                EthGetBalance ethGetBalance = web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).send();
+                BigInteger balanceInWei = ethGetBalance.getBalance();
+                if (index % PRINT_INTERVAL == 0) {
+                    System.out.println("Account " + index + " : " + address + " has " + Convert.fromWei(new BigDecimal(balanceInWei), Convert.Unit.ETHER) + " Ether");
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("Exception occurred: " + e.getMessage());
+                return true;
+            } else {
+                System.out.println("The address " + address + " is not a valid Ethereum address. Skipping the balance check for this address.");
                 return false;
             }
+        } catch (MessageDecodingException e) {
+            System.out.println("MessageDecodingException occurred for account at index " + index + " with address: " + account.getCredentials().getAddress());
+            e.printStackTrace();
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Other exception occurred: " + e.getMessage());
+            return false;
         }
-        return false;
     }
 
 }
