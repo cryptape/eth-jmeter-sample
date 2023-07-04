@@ -10,12 +10,15 @@ import org.web3j.protocol.core.methods.response.EthBlock;
 import org.web3j.protocol.http.HttpService;
 
 import java.math.BigInteger;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class GetBlockByNumber implements JavaSamplerClient {
 
     private static final AtomicInteger currentBlockNumber = new AtomicInteger(1);
     private Web3j web3j;
+    private Instant start;
 
     @Override
     public Arguments getDefaultParameters() {
@@ -39,11 +42,23 @@ public class GetBlockByNumber implements JavaSamplerClient {
 
     @Override
     public SampleResult runTest(JavaSamplerContext context) {
+        int requestCount = currentBlockNumber.get();
+        if (requestCount == 1) {
+            start = Instant.now();
+        }
+
         SampleResult result = new SampleResult();
         result.sampleStart(); // Jmeter 开始计时
         boolean success = getBlockByNumber(this.web3j, currentBlockNumber.getAndIncrement());
         result.setSuccessful(success); // 是否成功
         result.sampleEnd(); // Jmeter 结束计时
+
+        if (requestCount == 2000) {
+            Instant end = Instant.now();
+            double timeElapsed = Duration.between(start, end).toMillis() / 1000.0;
+            System.out.printf("Time elapsed for 2000 requests: %.1f seconds\n", timeElapsed);
+        }
+
         return result;
     }
 
