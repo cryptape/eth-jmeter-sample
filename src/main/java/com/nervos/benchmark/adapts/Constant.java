@@ -33,4 +33,5 @@ public class Constant {
     //logContract
     public static String LogLoopCount = "LogLoopCount";
 
+    public static final String MAX_REQUEST_COUNT = "maxRequestCount";
 }

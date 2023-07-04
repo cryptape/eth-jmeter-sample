@@ -14,14 +14,14 @@
     <hashTree>
       <kg.apc.jmeter.threads.SteppingThreadGroup guiclass="kg.apc.jmeter.threads.SteppingThreadGroupGui" testclass="kg.apc.jmeter.threads.SteppingThreadGroup" testname="jp@gc - Stepping Thread Group" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-        <stringProp name="ThreadGroup.num_threads">10</stringProp>
+        <stringProp name="ThreadGroup.num_threads">5</stringProp>
         <stringProp name="Threads initial delay"></stringProp>
         <stringProp name="Start users count">10</stringProp>
         <stringProp name="Start users count burst">5</stringProp>
         <stringProp name="Start users period">120</stringProp>
         <stringProp name="Stop users count"></stringProp>
         <stringProp name="Stop users period">100</stringProp>
-        <stringProp name="flighttime">120</stringProp>
+        <stringProp name="flighttime">180</stringProp>
         <stringProp name="rampUp">0</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -35,6 +35,11 @@
               <elementProp name="rpcUrl" elementType="Argument">
                 <stringProp name="Argument.name">rpcUrl</stringProp>
                 <stringProp name="Argument.value">https://v1.testnet.godwoken.io/rpc</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+              <elementProp name="maxRequestCount" elementType="Argument">
+                <stringProp name="Argument.name">maxRequestCount</stringProp>
+                <stringProp name="Argument.value">2000</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
