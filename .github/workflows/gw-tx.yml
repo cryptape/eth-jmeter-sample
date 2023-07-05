@@ -1,0 +1,62 @@
+name: gw-tx
+
+on:
+  workflow_dispatch:
+    inputs:
+      jmeterJmx:
+        type: choice
+        description: Make a choice of jmx
+        required: true
+        options:
+          - testnet-nativeTransfer.jmx
+          - alphanet-nativeTransfer.jmx
+      wsUrl:
+        description: 'websocket url'
+        required: false
+        default: 'wss://v1.testnet.godwoken.io/ws'
+      gistId:
+        description: 'Gist ID'
+        required: false
+        default: 'bd29348042f0f1f8998728895dea3e65'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+
+      - name: Build with Maven
+        run: mvn clean package --file pom.xml
+
+      - name: Start EthStats workflow
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          curl -X POST \
+            -H "Authorization: token $GH_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/sunchengzhu/eth-performance/actions/workflows/ethStats.yml/dispatches \
+            -d '{"ref":"main", "inputs": {"jarArg": "'${{ github.event.inputs.wsUrl }}'", "gistId": "'${{ github.event.inputs.gistId }}'"}'
+
+      - name: jmeter run
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GIST_ID: ${{ github.event.inputs.gistId }}
+        run: |
+          update_gist() {
+            cmd=$1
+            JSON_DATA=$(printf '{"description": "Updated gist","files": {"commands.txt": {"content": "%s"}}}' "$cmd")
+            curl -X PATCH -H "Authorization: token $GH_TOKEN" https://api.github.com/gists/${{ github.event.inputs.gistId }} -d "${JSON_DATA}"
+          }
+          update_gist "tps"
+          mvn jmeter:jmeter@configuration2 -DjmeterTest=${{ github.event.inputs.jmeterJmx }}
+          update_gist "stopTps"
+          sleep 5
+          update_gist "successRate"
