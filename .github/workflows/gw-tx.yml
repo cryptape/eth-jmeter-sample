@@ -3,17 +3,20 @@ name: gw-tx
 on:
   workflow_dispatch:
     inputs:
+      env:
+        type: choice
+        description: Environment
+        required: true
+        options:
+          - alphanet
+          - testnet
+          - axon
       jmeterJmx:
         type: choice
         description: Make a choice of jmx
         required: true
         options:
-          - testnet-nativeTransfer.jmx
-          - alphanet-nativeTransfer.jmx
-      wsUrl:
-        description: 'websocket url'
-        required: false
-        default: 'wss://v1.testnet.godwoken.io/ws'
+          - nativeTransfer.jmx
       gistId:
         description: 'Gist ID'
         required: false
@@ -32,6 +35,30 @@ jobs:
           java-version: '8'
           distribution: 'adopt'
 
+      - name: Set rpcUrl, wsUrl, and gasPrice environment variables
+        run: |
+          case "${{ github.event.inputs.env }}" in
+            "alphanet")
+              echo "rpcUrl=https://godwoken-alphanet-v1.ckbapp.dev" >> $GITHUB_ENV
+              echo "wsUrl=wss://gw-alphanet-v1.godwoken.cf/ws" >> $GITHUB_ENV
+              echo "gasPrice=1" >> $GITHUB_ENV
+              ;;
+            "testnet")
+              echo "rpcUrl=https://v1.testnet.godwoken.io/rpc" >> $GITHUB_ENV
+              echo "wsUrl=wss://v1.testnet.godwoken.io/ws" >> $GITHUB_ENV
+              echo "gasPrice=60000000000" >> $GITHUB_ENV
+              ;;
+            "axon")
+              echo "rpcUrl=http://34.216.103.183:8000" >> $GITHUB_ENV
+              echo "wsUrl=ws://34.216.103.183:8010" >> $GITHUB_ENV
+              echo "gasPrice=8" >> $GITHUB_ENV
+              ;;
+            *)
+              echo "Invalid environment specified."
+              exit 1
+              ;;
+          esac
+
       - name: Build with Maven
         run: mvn clean package --file pom.xml -q
 
@@ -49,6 +76,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GIST_ID: ${{ github.event.inputs.gistId }}
+          RPC_URL: ${{ env.rpcUrl }}
         run: |
           update_gist() {
             cmd=$1
@@ -56,7 +84,7 @@ jobs:
             curl -X PATCH -H "Authorization: token $GH_TOKEN" https://api.github.com/gists/${{ github.event.inputs.gistId }} -d "${JSON_DATA}"
           }
           update_gist "tps"
-          mvn jmeter:jmeter@configuration2 -DjmeterTest=${{ github.event.inputs.jmeterJmx }}
+          mvn jmeter:jmeter@configuration2 -DjmeterTest=${{ github.event.inputs.jmeterJmx }} -DrpcUrl=${{ env.rpcUrl }} -DgasPrice=${{ env.gasPrice }}
           update_gist "stopTps"
           sleep 5
           update_gist "successRate"
