@@ -59,12 +59,6 @@ jobs:
               ;;
           esac
 
-      - name: Print environment variables
-        run: |
-          echo "rpcUrl: ${{ env.rpcUrl }}"
-          echo "wsUrl: ${{ env.wsUrl }}"
-          echo "gasPrice: ${{ env.gasPrice }}"
-
       - name: Build with Maven
         run: mvn clean package --file pom.xml -q
 
@@ -90,6 +84,9 @@ jobs:
             curl -X PATCH -H "Authorization: token $GH_TOKEN" https://api.github.com/gists/${{ github.event.inputs.gistId }} -d "${JSON_DATA}"
           }
           update_gist "tps"
+          echo "rpcUrl: ${{ env.rpcUrl }}"
+          echo "wsUrl: ${{ env.wsUrl }}"
+          echo "gasPrice: ${{ env.gasPrice }}"
           mvn jmeter:jmeter@configuration2 -DjmeterTest=${{ github.event.inputs.jmeterJmx }} -DrpcUrl=${{ env.rpcUrl }} -DgasPrice=${{ env.gasPrice }}
           update_gist "stopTps"
           sleep 5
