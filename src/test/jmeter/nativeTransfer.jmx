@@ -34,7 +34,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="rpcUrl" elementType="Argument">
                 <stringProp name="Argument.name">rpcUrl</stringProp>
-                <stringProp name="Argument.value">${__P(rpcUrl)}</stringProp>
+                <stringProp name="Argument.value">rpcUrlValue</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="Mnemonic" elementType="Argument">
@@ -59,7 +59,7 @@
               </elementProp>
               <elementProp name="gasPrice" elementType="Argument">
                 <stringProp name="Argument.name">gasPrice</stringProp>
-                <stringProp name="Argument.value">${__P(gasPrice)}</stringProp>
+                <stringProp name="Argument.value">gasPriceValue</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="value" elementType="Argument">
