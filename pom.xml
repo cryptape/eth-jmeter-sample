@@ -11,7 +11,7 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-bu        <rpcUrl>${rpcUrl}</rpcUrl>
+        <rpcUrl>${rpcUrl}</rpcUrl>
         <BUILD_TAG>${project.version}</BUILD_TAG>
         <jmeter.plugin.version>3.7.0</jmeter.plugin.version>
         <encoding>UTF-8</encoding>
@@ -207,11 +207,11 @@ bu        <rpcUrl>${rpcUrl}</rpcUrl>
                 </executions>
                 <configuration>
                     <excludedArtifacts>
-<!--                        <exclusion>org.bouncycastle:bcprov-jdk15on:1.49</exclusion>-->
+                        <!--                        <exclusion>org.bouncycastle:bcprov-jdk15on:1.49</exclusion>-->
                     </excludedArtifacts>
-<!--                    <overrideRootLogLevel>debug</overrideRootLogLevel>-->
+                    <!--                    <overrideRootLogLevel>debug</overrideRootLogLevel>-->
                     <jmeterExtensions>
-<!--                        <artifact>org.example:eth-jmeter-sample:1.0-SNAPSHOT</artifact>-->
+                        <!--                        <artifact>org.example:eth-jmeter-sample:1.0-SNAPSHOT</artifact>-->
                         <artifact>kg.apc:jmeter-plugins-graphs-basic:2.0</artifact>
                         <artifact>kg.apc:jmeter-plugins-graphs-additional:2.0</artifact>
                         <artifact>kg.apc:jmeter-plugins-casutg:2.10</artifact>
@@ -234,9 +234,9 @@ bu        <rpcUrl>${rpcUrl}</rpcUrl>
                             <argument>-XX:MaxMetaspaceSize=1024m</argument>
                         </arguments>
                     </jMeterProcessJVMSettings>
-<!--                                        <testFilesExcluded>-->
-<!--                                            <excludeJMeterTestFile>*${jmeterTest}.jmx</excludeJMeterTestFile>-->
-<!--                                        </testFilesExcluded>-->
+                    <!--                                        <testFilesExcluded>-->
+                    <!--                                            <excludeJMeterTestFile>*${jmeterTest}.jmx</excludeJMeterTestFile>-->
+                    <!--                                        </testFilesExcluded>-->
                     <!--                    <resultsFileFormat>xml</resultsFileFormat>-->
                     <ignoreResultFailures>true</ignoreResultFailures>
                     <generateReports>${html.report}</generateReports>
