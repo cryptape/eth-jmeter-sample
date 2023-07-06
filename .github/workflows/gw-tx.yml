@@ -87,7 +87,8 @@ jobs:
           echo "rpcUrl: ${{ env.rpcUrl }}"
           echo "wsUrl: ${{ env.wsUrl }}"
           echo "gasPrice: ${{ env.gasPrice }}"
-          mvn jmeter:jmeter@configuration2 -DjmeterTest=${{ github.event.inputs.jmeterJmx }} -DrpcUrl=${{ env.rpcUrl }} -DgasPrice=${{ env.gasPrice }}
+          sed -i 's/<stringProp name="Argument.value">rpcUrlValue<\/stringProp>/<stringProp name="Argument.value">${{ env.rpcUrl }}<\/stringProp>/g' src/test/jmeter/${{ github.event.inputs.jmeterJmx }}
+          mvn jmeter:jmeter@configuration2 -DjmeterTest=${{ github.event.inputs.jmeterJmx }}
           update_gist "stopTps"
           sleep 5
           update_gist "successRate"
