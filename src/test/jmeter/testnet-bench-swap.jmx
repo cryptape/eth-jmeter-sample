@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.5">
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.4.1">
   <hashTree>
     <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="测试计划" enabled="true">
       <stringProp name="TestPlan.comments"></stringProp>
@@ -14,15 +14,15 @@
     <hashTree>
       <kg.apc.jmeter.threads.SteppingThreadGroup guiclass="kg.apc.jmeter.threads.SteppingThreadGroupGui" testclass="kg.apc.jmeter.threads.SteppingThreadGroup" testname="jp@gc - Stepping Thread Group" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-        <stringProp name="ThreadGroup.num_threads">25</stringProp>
+        <stringProp name="ThreadGroup.num_threads">2</stringProp>
         <stringProp name="Threads initial delay">0</stringProp>
-        <stringProp name="Start users count">10</stringProp>
+        <stringProp name="Start users count">2</stringProp>
         <stringProp name="Start users count burst">1</stringProp>
-        <stringProp name="Start users period">300</stringProp>
+        <stringProp name="Start users period">120</stringProp>
         <stringProp name="Stop users count">0</stringProp>
         <stringProp name="Stop users period">100</stringProp>
-        <stringProp name="flighttime">3600</stringProp>
-        <stringProp name="rampUp">60</stringProp>
+        <stringProp name="flighttime">120</stringProp>
+        <stringProp name="rampUp">0</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <intProp name="LoopController.loops">-1</intProp>
@@ -35,11 +35,6 @@
               <elementProp name="rpcUrl" elementType="Argument">
                 <stringProp name="Argument.name">rpcUrl</stringProp>
                 <stringProp name="Argument.value">https://godwoken-testnet-v1.ckbapp.dev</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="default_private_key" elementType="Argument">
-                <stringProp name="Argument.name">default_private_key</stringProp>
-                <stringProp name="Argument.value">0xd326ae3a6708b3f1ad08cefe5a429c313369a98e0a4533c5798be8458d405b31</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="Mnemonic" elementType="Argument">
