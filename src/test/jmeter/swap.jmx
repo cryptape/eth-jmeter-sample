@@ -14,10 +14,10 @@
     <hashTree>
       <kg.apc.jmeter.threads.SteppingThreadGroup guiclass="kg.apc.jmeter.threads.SteppingThreadGroupGui" testclass="kg.apc.jmeter.threads.SteppingThreadGroup" testname="jp@gc - Stepping Thread Group" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-        <stringProp name="ThreadGroup.num_threads">4</stringProp>
+        <stringProp name="ThreadGroup.num_threads">2</stringProp>
         <stringProp name="Threads initial delay">0</stringProp>
-        <stringProp name="Start users count">10</stringProp>
-        <stringProp name="Start users count burst">2</stringProp>
+        <stringProp name="Start users count">2</stringProp>
+        <stringProp name="Start users count burst">1</stringProp>
         <stringProp name="Start users period">120</stringProp>
         <stringProp name="Stop users count">0</stringProp>
         <stringProp name="Stop users period">100</stringProp>
@@ -49,7 +49,7 @@
               </elementProp>
               <elementProp name="to" elementType="Argument">
                 <stringProp name="Argument.name">to</stringProp>
-                <stringProp name="Argument.value">toAddress</stringProp>
+                <stringProp name="Argument.value">0x5bf585570316838d5572212f0909074df4f73988</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="gasLimit" elementType="Argument">
@@ -69,7 +69,7 @@
               </elementProp>
               <elementProp name="payload" elementType="Argument">
                 <stringProp name="Argument.name">payload</stringProp>
-                <stringProp name="Argument.value">payloadValue</stringProp>
+                <stringProp name="Argument.value">0x7ff36ab5000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000800000000000000000000000003499932d7a1d1850253d6c66d830e3524bb3f2a700000000000000000000000000000000000000000000000000005af3107a3fff00000000000000000000000000000000000000000000000000000000000000020000000000000000000000003ab7965043506c8917ed4c2492f32904b2894e780000000000000000000000005b273272be0ca76dfd74a368d4f9e38168d437c3</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
