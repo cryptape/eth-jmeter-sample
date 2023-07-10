@@ -12,6 +12,7 @@ on:
           - testnet-getBalance.jmx
           - testnet-nativeTransfer.jmx
           - alphanet-nativeTransfer.jmx
+          - testnet-bench-swap.jmx
       wsUrl:
         description: 'websocket url'
         required: false

@@ -92,11 +92,11 @@ jobs:
           echo "rpcUrl: ${{ env.rpcUrl }}"
           echo "wsUrl: ${{ env.wsUrl }}"
           echo "gasPrice: ${{ env.gasPrice }}"
-          echo "to: ${{ env.to }}
-          echo "payload: ${{ env.payload }}
           sed -i 's|<stringProp name="Argument.value">rpcUrlValue</stringProp>|<stringProp name="Argument.value">${{ env.rpcUrl }}</stringProp>|g' src/test/jmeter/nativeTransfer.jmx
           sed -i 's|<stringProp name="Argument.value">gasPriceValue</stringProp>|<stringProp name="Argument.value">${{ env.gasPrice }}</stringProp>|g' src/test/jmeter/nativeTransfer.jmx
           if [ "${{ github.event.inputs.jmeterJmx }}" = "swap.jmx" ]; then
+            echo "to: ${{ env.to }}
+            echo "payload: ${{ env.payload }}
             sed -i 's|<stringProp name="Argument.value">toAddress</stringProp>|<stringProp name="Argument.value">${{ env.to }}</stringProp>|g' src/test/jmeter/swap.jmx
             sed -i 's|<stringProp name="Argument.value">payloadValue</stringProp>|<stringProp name="Argument.value">${{ env.payload }}</stringProp>|g' src/test/jmeter/swap.jmx
           fi
