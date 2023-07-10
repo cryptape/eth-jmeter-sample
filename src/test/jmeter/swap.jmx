@@ -49,7 +49,7 @@
               </elementProp>
               <elementProp name="to" elementType="Argument">
                 <stringProp name="Argument.name">to</stringProp>
-                <stringProp name="Argument.value">0x5bf585570316838d5572212f0909074df4f73988</stringProp>
+                <stringProp name="Argument.value">toAddress</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="gasLimit" elementType="Argument">
@@ -69,7 +69,7 @@
               </elementProp>
               <elementProp name="payload" elementType="Argument">
                 <stringProp name="Argument.name">payload</stringProp>
-                <stringProp name="Argument.value">0x7ff36ab5000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000800000000000000000000000003499932d7a1d1850253d6c66d830e3524bb3f2a700000000000000000000000000000000000000000000000000005af3107a3fff00000000000000000000000000000000000000000000000000000000000000020000000000000000000000003ab7965043506c8917ed4c2492f32904b2894e780000000000000000000000005b273272be0ca76dfd74a368d4f9e38168d437c3</stringProp>
+                <stringProp name="Argument.value">payloadValue</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
