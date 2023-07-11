@@ -1,4 +1,4 @@
-name: tx
+name: query
 
 on:
   workflow_dispatch:
