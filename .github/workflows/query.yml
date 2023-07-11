@@ -32,7 +32,7 @@ jobs:
           java-version: '8'
           distribution: 'adopt'
 
-      - name: Set rpcUrl, wsUrl, and gasPrice environment variables
+      - name: Set rpcUrl
         run: |
           case "${{ github.event.inputs.env }}" in
             "alphanet")
