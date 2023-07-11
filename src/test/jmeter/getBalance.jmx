@@ -14,10 +14,10 @@
     <hashTree>
       <kg.apc.jmeter.threads.SteppingThreadGroup guiclass="kg.apc.jmeter.threads.SteppingThreadGroupGui" testclass="kg.apc.jmeter.threads.SteppingThreadGroup" testname="jp@gc - Stepping Thread Group" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-        <stringProp name="ThreadGroup.num_threads">6</stringProp>
+        <stringProp name="ThreadGroup.num_threads">4</stringProp>
         <stringProp name="Threads initial delay"></stringProp>
-        <stringProp name="Start users count">3</stringProp>
-        <stringProp name="Start users count burst">3</stringProp>
+        <stringProp name="Start users count">2</stringProp>
+        <stringProp name="Start users count burst">2</stringProp>
         <stringProp name="Start users period">120</stringProp>
         <stringProp name="Stop users count"></stringProp>
         <stringProp name="Stop users period">100</stringProp>
@@ -29,12 +29,12 @@
         </elementProp>
       </kg.apc.jmeter.threads.SteppingThreadGroup>
       <hashTree>
-        <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="nativeTransfer" enabled="true">
+        <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="getBalance" enabled="true">
           <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments">
               <elementProp name="rpcUrl" elementType="Argument">
                 <stringProp name="Argument.name">rpcUrl</stringProp>
-                <stringProp name="Argument.value">https://v1.testnet.godwoken.io/rpc</stringProp>
+                <stringProp name="Argument.value">rpcUrlValue</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="Mnemonic" elementType="Argument">
@@ -47,34 +47,9 @@
                 <stringProp name="Argument.value">10000</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
-              <elementProp name="to" elementType="Argument">
-                <stringProp name="Argument.name">to</stringProp>
-                <stringProp name="Argument.value">0x3499932d7a1D1850253d6c66d830e3524bb3F2a7</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="gasLimit" elementType="Argument">
-                <stringProp name="Argument.name">gasLimit</stringProp>
-                <stringProp name="Argument.value">21000</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="gasPrice" elementType="Argument">
-                <stringProp name="Argument.name">gasPrice</stringProp>
-                <stringProp name="Argument.value">60000000000</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="value" elementType="Argument">
-                <stringProp name="Argument.name">value</stringProp>
-                <stringProp name="Argument.value">1</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="payload" elementType="Argument">
-                <stringProp name="Argument.name">payload</stringProp>
-                <stringProp name="Argument.value">0x</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
             </collectionProp>
           </elementProp>
-          <stringProp name="classname">com.nervos.benchmark.adapts.TxBuildRequest</stringProp>
+          <stringProp name="classname">com.nervos.benchmark.adapts.GetBalance</stringProp>
         </JavaSampler>
         <hashTree/>
         <kg.apc.jmeter.vizualizers.CorrectedResultCollector guiclass="kg.apc.jmeter.vizualizers.ThreadsStateOverTimeGui" testclass="kg.apc.jmeter.vizualizers.CorrectedResultCollector" testname="jp@gc - Active Threads Over Time" enabled="true">
