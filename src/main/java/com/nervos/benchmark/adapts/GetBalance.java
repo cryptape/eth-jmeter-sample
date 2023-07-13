@@ -22,7 +22,7 @@ public class GetBalance extends Web3BasicRequest {
     private static AtomicInteger curBalanceCheckIdx = new AtomicInteger(0);
     private int currentIdx;
     private Account currentAccount;
-    private static final int PRINT_INTERVAL = 1000;
+    private static final int PRINT_INTERVAL = 1;
 
     @Override
     public Arguments getConfigArguments() {
