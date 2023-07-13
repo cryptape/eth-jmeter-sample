@@ -44,6 +44,7 @@ public class TxBuildRequest extends Web3BasicRequest {
     @Override
     public void setupOtherData(JavaSamplerContext context) {
         String mnstr = context.getParameter(Constant.Mnemonic);
+        System.out.println("mnstr: " + mnstr);
         int size = context.getIntParameter(Constant.SIZE);
         this.chainId = SingletonService.getChainId(this.web3j);
 
