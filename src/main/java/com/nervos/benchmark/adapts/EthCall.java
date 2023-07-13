@@ -77,11 +77,7 @@ public class EthCall implements JavaSamplerClient {
         try {
             Transaction transaction = Transaction.createEthCallTransaction(from, to, data);
             String response = web3j.ethCall(transaction, DefaultBlockParameterName.LATEST).send().getValue();
-
-            // 每200次请求打印一次响应
-            if (requestCounter.get() % 200 == 0) {
-                System.out.println("Request " + requestCounter.get() + ": Call response is " + response);
-            }
+            System.out.println("Request " + requestCounter.get() + ": Call response is " + response);
 
             // Let's just return true if we've reached this point without exceptions:
             return true;

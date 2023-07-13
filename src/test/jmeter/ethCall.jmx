@@ -39,7 +39,7 @@
               </elementProp>
               <elementProp name="maxRequestCount" elementType="Argument">
                 <stringProp name="Argument.name">maxRequestCount</stringProp>
-                <stringProp name="Argument.value">2000</stringProp>
+                <stringProp name="Argument.value">1999</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
               <elementProp name="from" elementType="Argument">
