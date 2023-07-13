@@ -35,7 +35,6 @@ public class GetBalance extends Web3BasicRequest {
     @Override
     public void setupOtherData(JavaSamplerContext context) {
         String mnstr = context.getParameter(Constant.Mnemonic);
-        System.out.println("mnstr: " + mnstr);
         int size = context.getIntParameter(Constant.SIZE);
         this.accountList = SingletonService.getSingletonAccountList(mnstr, size);
     }
