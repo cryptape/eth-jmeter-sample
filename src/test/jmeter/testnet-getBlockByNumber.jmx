@@ -14,14 +14,14 @@
     <hashTree>
       <kg.apc.jmeter.threads.SteppingThreadGroup guiclass="kg.apc.jmeter.threads.SteppingThreadGroupGui" testclass="kg.apc.jmeter.threads.SteppingThreadGroup" testname="jp@gc - Stepping Thread Group" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-        <stringProp name="ThreadGroup.num_threads">2</stringProp>
-        <stringProp name="Threads initial delay">0</stringProp>
-        <stringProp name="Start users count">2</stringProp>
-        <stringProp name="Start users count burst">1</stringProp>
+        <stringProp name="ThreadGroup.num_threads">5</stringProp>
+        <stringProp name="Threads initial delay"></stringProp>
+        <stringProp name="Start users count">10</stringProp>
+        <stringProp name="Start users count burst">5</stringProp>
         <stringProp name="Start users period">120</stringProp>
-        <stringProp name="Stop users count">0</stringProp>
+        <stringProp name="Stop users count"></stringProp>
         <stringProp name="Stop users period">100</stringProp>
-        <stringProp name="flighttime">120</stringProp>
+        <stringProp name="flighttime">180</stringProp>
         <stringProp name="rampUp">0</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="循环控制器" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -29,52 +29,22 @@
         </elementProp>
       </kg.apc.jmeter.threads.SteppingThreadGroup>
       <hashTree>
-        <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="swap" enabled="true">
+        <JavaSampler guiclass="JavaTestSamplerGui" testclass="JavaSampler" testname="getBlockByNumber" enabled="true">
           <elementProp name="arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments">
               <elementProp name="rpcUrl" elementType="Argument">
                 <stringProp name="Argument.name">rpcUrl</stringProp>
-                <stringProp name="Argument.value">https://godwoken-testnet-v1.ckbapp.dev</stringProp>
+                <stringProp name="Argument.value">https://v1.testnet.godwoken.io/rpc</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
-              <elementProp name="Mnemonic" elementType="Argument">
-                <stringProp name="Argument.name">Mnemonic</stringProp>
-                <stringProp name="Argument.value">already luggage walk truly world rent unlock quick tube actual acoustic spin</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="size" elementType="Argument">
-                <stringProp name="Argument.name">size</stringProp>
-                <stringProp name="Argument.value">10000</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="to" elementType="Argument">
-                <stringProp name="Argument.name">to</stringProp>
-                <stringProp name="Argument.value">0x5bf585570316838d5572212f0909074df4f73988</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="gasLimit" elementType="Argument">
-                <stringProp name="Argument.name">gasLimit</stringProp>
-                <stringProp name="Argument.value">1000000</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="gasPrice" elementType="Argument">
-                <stringProp name="Argument.name">gasPrice</stringProp>
-                <stringProp name="Argument.value">60000000001</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="value" elementType="Argument">
-                <stringProp name="Argument.name">value</stringProp>
-                <stringProp name="Argument.value">1000</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-              <elementProp name="payload" elementType="Argument">
-                <stringProp name="Argument.name">payload</stringProp>
-                <stringProp name="Argument.value">0x7ff36ab5000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000800000000000000000000000003499932d7a1d1850253d6c66d830e3524bb3f2a700000000000000000000000000000000000000000000000000005af3107a3fff00000000000000000000000000000000000000000000000000000000000000020000000000000000000000003ab7965043506c8917ed4c2492f32904b2894e780000000000000000000000005b273272be0ca76dfd74a368d4f9e38168d437c3</stringProp>
+              <elementProp name="maxRequestCount" elementType="Argument">
+                <stringProp name="Argument.name">maxRequestCount</stringProp>
+                <stringProp name="Argument.value">2000</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>
-          <stringProp name="classname">com.nervos.benchmark.adapts.TxBuildRequest</stringProp>
+          <stringProp name="classname">com.nervos.benchmark.adapts.GetBlockByNumber</stringProp>
         </JavaSampler>
         <hashTree/>
         <kg.apc.jmeter.vizualizers.CorrectedResultCollector guiclass="kg.apc.jmeter.vizualizers.ThreadsStateOverTimeGui" testclass="kg.apc.jmeter.vizualizers.CorrectedResultCollector" testname="jp@gc - Active Threads Over Time" enabled="true">

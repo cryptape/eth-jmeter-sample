@@ -11,9 +11,9 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <rpcUrl>http://localhost:8024</rpcUrl>
+        <rpcUrl>https://v1.testnet.godwoken.io/rpc</rpcUrl>
         <BUILD_TAG>${project.version}</BUILD_TAG>
-        <jmeter.plugin.version>3.6.1</jmeter.plugin.version>
+        <jmeter.plugin.version>3.7.0</jmeter.plugin.version>
         <encoding>UTF-8</encoding>
         <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
@@ -28,7 +28,7 @@
         <dependency>
             <groupId>org.apache.jmeter</groupId>
             <artifactId>ApacheJMeter_java</artifactId>
-            <version>5.4.3</version>
+            <version>5.6</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.logging.log4j</groupId>
@@ -153,7 +153,7 @@
                     <!-- MainClass in mainfest make a executable jar -->
                     <archive>
                         <manifest>
-                            <mainClass>com.nervos.benckmark.BlockNumRequest</mainClass>
+                            <mainClass>com.nervos.benchmark.BlockNumRequest</mainClass>
                         </manifest>
                     </archive>
                     <!--                    <outputDirectory>../target/*/jmeter/lib/ext</outputDirectory>-->
@@ -172,7 +172,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.18.1</version>
+                <version>3.0.0-M5</version>
                 <configuration>
                     <skip>true</skip>
                 </configuration>
@@ -181,7 +181,7 @@
             <plugin>
                 <groupId>com.lazerycode.jmeter</groupId>
                 <artifactId>jmeter-maven-plugin</artifactId>
-                <version>${jmeter.plugin.version}</version>
+                <version>3.4.0</version>
                 <executions>
                     <execution>
                         <id>configuration2</id>
@@ -207,11 +207,11 @@
                 </executions>
                 <configuration>
                     <excludedArtifacts>
-<!--                        <exclusion>org.bouncycastle:bcprov-jdk15on:1.49</exclusion>-->
+                        <!--                        <exclusion>org.bouncycastle:bcprov-jdk15on:1.49</exclusion>-->
                     </excludedArtifacts>
-<!--                    <overrideRootLogLevel>debug</overrideRootLogLevel>-->
+                    <!--                    <overrideRootLogLevel>debug</overrideRootLogLevel>-->
                     <jmeterExtensions>
-<!--                        <artifact>org.example:eth-jmeter-sample:1.0-SNAPSHOT</artifact>-->
+                        <!--                        <artifact>org.example:eth-jmeter-sample:1.0-SNAPSHOT</artifact>-->
                         <artifact>kg.apc:jmeter-plugins-graphs-basic:2.0</artifact>
                         <artifact>kg.apc:jmeter-plugins-graphs-additional:2.0</artifact>
                         <artifact>kg.apc:jmeter-plugins-casutg:2.10</artifact>
@@ -222,6 +222,10 @@
                         <jmeter.reportgenerator.overall_granularity>500</jmeter.reportgenerator.overall_granularity>
                         <jmeter.reportgenerator.exporter.html.series_filter>^(-success|-failure)?$
                         </jmeter.reportgenerator.exporter.html.series_filter>
+                        <summariser.name>summary</summariser.name>
+                        <summariser.interval>5</summariser.interval>
+                        <summariser.log>true</summariser.log>
+                        <summariser.out>true</summariser.out>
                     </propertiesUser>
                     <jMeterProcessJVMSettings>
                         <xms>15360</xms>
@@ -230,9 +234,9 @@
                             <argument>-XX:MaxMetaspaceSize=1024m</argument>
                         </arguments>
                     </jMeterProcessJVMSettings>
-<!--                                        <testFilesExcluded>-->
-<!--                                            <excludeJMeterTestFile>*${jmeterTest}.jmx</excludeJMeterTestFile>-->
-<!--                                        </testFilesExcluded>-->
+                    <!--                                        <testFilesExcluded>-->
+                    <!--                                            <excludeJMeterTestFile>*${jmeterTest}.jmx</excludeJMeterTestFile>-->
+                    <!--                                        </testFilesExcluded>-->
                     <!--                    <resultsFileFormat>xml</resultsFileFormat>-->
                     <ignoreResultFailures>true</ignoreResultFailures>
                     <generateReports>${html.report}</generateReports>

@@ -8,53 +8,62 @@ on:
         description: Make a choice of jmx
         required: true
         options:
-        - alphanet-bench-erc20.jmx
-        - alphanet-bench-logRequest.jmx
-        - alphanet-bench-swap.jmx
-        - testnet-bench-erc20.jmx
-        - testnet-bench-swap.jmx
-      rpcUrl:
-        type: choice
-        description: godwoken test net
-        required: true
-        options:
-          - alphanet
-          - testnet
+          - testnet-getBlockByNumber.jmx
+          - testnet-getBalance.jmx
+          - testnet-nativeTransfer.jmx
+          - alphanet-nativeTransfer.jmx
+          - testnet-bench-swap.jmx
+      wsUrl:
+        description: 'websocket url'
+        required: false
+        default: 'wss://v1.testnet.godwoken.io/ws'
+      gistId:
+        description: 'Gist ID'
+        required: false
+        default: 'bd29348042f0f1f8998728895dea3e65'
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v1
+
       - name: Set up JDK 1.8
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
-          java-version: 1.8
-      - name: Install Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'  
+          java-version: '8'
+          distribution: 'adopt'
+
       - name: Build with Maven
-        run:
-          mvn clean package --file pom.xml
-      - name: Install Dependencies
-        run: 
-          pip install Web3
-      - name: Start  Monit Block Message
-        run: 
-          python utils/retrieve_block.py ${{ github.event.inputs.rpcUrl }} &
-      - name: jmeter run
-        run:
-          mvn jmeter:jmeter@configuration2 -DjmeterTest=${{ github.event.inputs.jmeterJmx }}
-      - name: collect block message
-        if: always()
+        run: mvn clean package --file pom.xml
+
+      - name: Start EthStats workflow
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          sleep 2m
-          cat block.csv
-          cp block.csv target/jmeter
-      - name: Publish reports
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: jfoa-build-reports-${{ runner.os }}
-          path: target/jmeter
+          if [[ "${{ github.event.inputs.jmeterJmx }}" != "testnet-getBalance.jmx" && "${{ github.event.inputs.jmeterJmx }}" != "testnet-getBlockByNumber.jmx" ]]; then
+            curl -X POST \
+              -H "Authorization: token $GH_TOKEN" \
+              -H "Accept: application/vnd.github.v3+json" \
+              https://api.github.com/repos/sunchengzhu/eth-performance/actions/workflows/ethStats.yml/dispatches \
+              -d '{"ref":"main", "inputs": {"jarArg": "'${{ github.event.inputs.wsUrl }}'", "gistId": "'${{ github.event.inputs.gistId }}'"}'
+          fi
+
+      - name: jmeter run
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GIST_ID: bd29348042f0f1f8998728895dea3e65
+        run: |
+          update_gist() {
+            if [[ "${{ github.event.inputs.jmeterJmx }}" != "testnet-getBalance.jmx" && "${{ github.event.inputs.jmeterJmx }}" != "testnet-getBlockByNumber.jmx" ]]; then
+              cmd=$1
+              JSON_DATA=$(printf '{"description": "Updated gist","files": {"commands.txt": {"content": "%s"}}}' "$cmd")
+              curl -X PATCH -H "Authorization: token $GH_TOKEN" https://api.github.com/gists/$GIST_ID -d "${JSON_DATA}"
+            fi
+          }
+          update_gist "tps"
+          mvn jmeter:jmeter@configuration2 -DjmeterTest=${{ github.event.inputs.jmeterJmx }}
+          update_gist "stopTps"
+          sleep 5
+          update_gist "successRate"
